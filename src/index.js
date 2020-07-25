@@ -1,4 +1,10 @@
-const Joi = require('@hapi/joi')
+const Joi = require("@hapi/joi");
+const {
+  pedidoSchema,
+  boletoSchema,
+  compradorSchema,
+  tokenConfirmacaoPagamento,
+} = require("../src/validation/index");
 
 class ShopFacil {
   constructor(key, merchId, env) {
@@ -7,43 +13,34 @@ class ShopFacil {
     this._env = env;
   }
 
+
+  urlProd = "https://meiosdepagamentobradesco.com.br/api";
+  urlHomolog =
+    "https://homolog.meiosdepagamentobradesco.com.br/transf/transacao";
+
+  _env === 'PROD' ? : 
+
   pedido = (pedido) => {
-    if (pedido && pedido.numero && pedido.valor && pedido.descricao) {
-      console.log("ok");
-    } else {
-      console.log("NOT OK");
-    }
-    return pedido;
+    console.log(pedidoSchema.validate(pedido));
   };
 
   comprador = (comprador) => {
-    if (
-      comprador &&
-      comprador.nome &&
-      comprador.documento &&
-      comprador.endereco.cep &&
-      comprador.endereco.logradouro &&
-      comprador.endereco.numero &&
-      comprador.endereco.bairro &&
-      comprador.endereco.cidade &&
-      comprador.endereco.uf
-    )
-      return comprador;
+    Joi.validate(comprador, compradorSchema, () => {});
   };
 
   boleto = (boleto) => {
-    if(boleto && boleto.beneficiario && boleto.carteira &&)
+    Joi.validate(boleto, boletoSchema, () => {});
   };
 
-  sendRequest = () => {
-    console.log("aaaaaaa");
-  };
+  tokenConfirmacaoPagamento = (token) => {};
+
+  sendRequest = () => {};
 }
 
-const sf = new ShopFacil("a", "b", "c");
+const sf = new ShopFacil("", "", "");
 
 sf.pedido({
-  numero: "0-9_A-Z_.MAX-27-CH99",
-  valor: "15000",
-  descricao: "Descritivo do pedido",
+  numero: 82312312318,
+  valor: 200,
+  descricao: "de produto no valor de R$ 250,00",
 });
