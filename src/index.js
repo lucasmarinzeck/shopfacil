@@ -1,46 +1,38 @@
-const Joi = require("@hapi/joi");
-const {
-  pedidoSchema,
-  boletoSchema,
-  compradorSchema,
-  tokenConfirmacaoPagamento,
-} = require("../src/validation/index");
+// const Joi = require("@hapi/joi");
+// const {
+//   pedidoSchema,
+//   boletoSchema,
+//   compradorSchema,
+//   // tokenConfirmacaoPagamento,
+// } = require("../src/validation/index");
 
 class ShopFacil {
   constructor(key, merchId, env) {
     this._key = key;
     this._merchId = merchId;
     this._env = env;
+    if (this._env == "HML") {
+      this._apiURL =
+        "https://homolog.meiosdepagamentobradesco.com.br/transf/transacao";
+    } else if (this._env == "PRD") {
+      // this._apiURL = "https://meiosdepagamentobradesco.com.br/api";
+    }
   }
 
-
-  urlProd = "https://meiosdepagamentobradesco.com.br/api";
-  urlHomolog =
-    "https://homolog.meiosdepagamentobradesco.com.br/transf/transacao";
-
-  _env === 'PROD' ? : 
-
-  pedido = (pedido) => {
-    console.log(pedidoSchema.validate(pedido));
+  pedido = () => {
+    console.log(this._apiURL);
   };
 
-  comprador = (comprador) => {
-    Joi.validate(comprador, compradorSchema, () => {});
+  comprador = (comprador) => {};
+
+  boleto = (pedido, comprador, boletoBancario) => {
+    
   };
 
-  boleto = (boleto) => {
-    Joi.validate(boleto, boletoSchema, () => {});
-  };
+  transferenciaBancaria = (pedido, comprador, token_request_confirmacao_pagamento) => {}
 
-  tokenConfirmacaoPagamento = (token) => {};
-
-  sendRequest = () => {};
+  tokenConfirmacaoPagamento = (token_request_confirmacao_pagamento) => {};
 }
 
-const sf = new ShopFacil("", "", "");
-
-sf.pedido({
-  numero: 82312312318,
-  valor: 200,
-  descricao: "de produto no valor de R$ 250,00",
-});
+const sf = new ShopFacil("", "", "HML");
+sf.pedido();

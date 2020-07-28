@@ -67,4 +67,4 @@ exports.boletoSchema = Joi.object({
   }).optional(),
 });
 
-exports.tokenConfirmacaoPagamento = Joi.string().max(256).optional(),
+// exports.tokenConfirmacaoPagamento = Joi.string().max(256).optional(),
