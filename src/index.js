@@ -3,7 +3,7 @@ const {
   pedidoSchema,
   boletoSchema,
   compradorSchema,
-  tokenConfirmacaoPagamento,
+  // tokenConfirmacaoPagamento,
 } = require("../src/validation/index");
 
 class ShopFacil {
@@ -11,22 +11,19 @@ class ShopFacil {
     this._key = key;
     this._merchId = merchId;
     this._env = env;
+    if (this._env == "HML") {
+      this._apiURL =
+        "https://homolog.meiosdepagamentobradesco.com.br/transf/transacao";
+    } else if (this._env == "PRD") {
+      this._apiURL = "https://meiosdepagamentobradesco.com.br/api";
+    }
   }
 
-
-  urlProd = "https://meiosdepagamentobradesco.com.br/api";
-  urlHomolog =
-    "https://homolog.meiosdepagamentobradesco.com.br/transf/transacao";
-
-  _env === 'PROD' ? : 
-
   pedido = (pedido) => {
-    console.log(pedidoSchema.validate(pedido));
+    console.log(this._apiURL);
   };
 
-  comprador = (comprador) => {
-    Joi.validate(comprador, compradorSchema, () => {});
-  };
+  comprador = (comprador) => {};
 
   boleto = (boleto) => {
     Joi.validate(boleto, boletoSchema, () => {});
@@ -37,10 +34,5 @@ class ShopFacil {
   sendRequest = () => {};
 }
 
-const sf = new ShopFacil("", "", "");
-
-sf.pedido({
-  numero: 82312312318,
-  valor: 200,
-  descricao: "de produto no valor de R$ 250,00",
-});
+const sf = new ShopFacil("", "", "HML");
+sf.pedido();
